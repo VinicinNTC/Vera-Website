@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Véra - Login</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="icon" href="images/faricon.png" type="image/png">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho-site" id="cabecalho">
+        <div class="container">
+            <div class="cabecalho-interno">
+                <a href="index.html">
+                    <img class="img-logo" src="images/logo_s.png" width="18%" alt="logomarca">
+                    <span class="logo-texto">VÉRA</span>
+                </a>
+
+                <nav class="nav-principal">
+                    <a href="catalogo.html">Alianças</a>
+                    <a href="#colecoes">Namoro</a>
+                    <a href="#colecoes">Noivado</a>
+                    <a href="#colecoes">Casamento</a>
+                    <a href="login.html" class="nav-login">Login</a>
+                </nav>
+
+                <button class="menu-abrir" id="menuAbrir" aria-label="Abrir menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="barra-mobile" id="sobreposicaoMobile"></div>
+    <nav class="nav-mobile" id="navMobile">
+        <button class="nav-mobile-fechar" id="navMobileFechar">×</button>
+        <ul class="nav-mobile-links">
+            <li><a href="#aliancas">Alianças</a></li>
+            <li><a href="#namoro">Namoro</a></li>
+            <li><a href="#noivado">Noivado</a></li>
+            <li><a href="#casamento">Casamento</a></li>
+        </ul>
+        <div class="nav-mobile-login">
+            <a href="login.html" class="btn-primario">Login</a>
+        </div>
+    </nav>
+
+    <script src="logica.js"></script>
+
+    <div class="formulario-contato-wrapper">
+
+        <br>
+
+        <h3 class="formulario-titulo" style="text-align: center;">Iniciar SessÃo</h3>
+
+        <br> <br> <br> <br> <br> <br>
+
+        <form id="formAgendamento" class="login-box centralizar" onsubmit="Login(event)">
+            <div class="grupo-formulario">
+                <label class="rotulo-formulario" for="email">Email</label>
+                <input type="email" id="email" class="input-formulario" placeholder="Insira seu Email" required>
+            </div>
+            <div class="grupo-formulario">
+                <label class="rotulo-formulario" for="telefone">Senha</label>
+                <input onclick="Login(event)" type="password" id="senha" placeholder="Insira sua Senha"
+                    class="input-formulario">
+                <br>
+                <a href="#" class="rotulo-formulario" style="text-align: justify;" onclick="Esqueci(event)">Esqueci
+                    minha senha</a>
+            </div>
+
+            <button type="submit" class="botao-submit_login">Login</button>
+            <br>
+            <label class="text-body rotulo-formulario">
+                <input type="checkbox" id="lembrar"> Lembrar de mim
+            </label>
+        </form>
+    </div>
+    </div>
+    </div>
+    </section>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br> <!-- logica de gorila mas foi oq funfou!! -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <!-- Rodapé -->
+	<footer class="rodape-site">
+		<div class="container">
+			<div class="rodape-grade">
+				<div class="rodape-marca">
+					<img class="rodape-logo" src="images/logo.png" width="18%" alt="logomarca">
+					<p class="rodape-slogan">
+						Produção de jóias
+						artesanal 
+					</p>
+					<div class="rodape-contato-info">
+						<p>Avenida Paulista, 1471 – 5º Andar</p>
+						<p>Jardim Paulista, São Paulo – SP</p>
+						<p><a href="tel:+5511940028922">(11) 94002-8922</a></p>
+						<p><a href="mailto:vendas@vera.com.br">vendas@vera.com.br</a></p>
+					</div>
+				</div>
+
+				<div class="rodape-coluna">
+					<h4 class="rodape-coluna-titulo">Coleções</h4>
+					<ul class="rodape-links">
+						<li><a href="#colecoes">Todas as Coleções</a></li>
+						<li><a href="#">Alianças</a></li>
+						<li><a href="#">Namoro</a></li>
+						<li><a href="#">Noivado</a></li>
+						<li><a href="#">Casamento</a></li>
+					</ul>
+				</div>
+
+				<div class="rodape-coluna">
+					<h4 class="rodape-coluna-titulo">Sobre a Empresa</h4>
+					<ul class="rodape-links">
+						<li><a href="#historia"></a></li>
+						<li><a href="#artesanato"></a></li>
+						<li><a href="#contato"></a></li>
+						<li><a href="#"></a></li>
+						<li><a href="#"></a></li>
+					</ul>
+				</div>
+
+				<div class="rodape-coluna rodape-sobre">
+					<h4 class="rodape-coluna-titulo"></h4>
+					<p>
+	
+					</p>
+					<p>
+					
+					</p>
+					<p>
+	
+					</p>
+				</div>
+			</div>
+
+			<div class="rodape-inferior">
+				<p class="rodape-copyright">© 2026 VÉRA.</p>
+				<div class="rodape-social">
+					<a href="#">Instagram</a>
+					<a href="#">Pinterest</a>
+					<a href="#">Facebook</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>

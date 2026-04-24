@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Véra — Marketplace | Alianças e Jóias</title>
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        /* ============================================
+           ESTILOS EXCLUSIVOS DO MARKETPLACE
+           ============================================ */
+        
+        /* Ajuste para o cabeçalho fixo não cobrir o conteúdo */
+        .marketplace-main {
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+        
+        .cabecalho-site.scrolled + .marketplace-main {
+            padding-top: 90px;
+        }
+        
+        /* ============================================
+           HEADER DO MARKETPLACE (Título e breadcrumb)
+           ============================================ */
+        .marketplace-header {
+            text-align: center;
+            margin-bottom: var(--espaco-xl);
+        }
+        
+        .marketplace-titulo {
+            font-family: var(--fonte-titulos);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 300;
+            color: var(--cor-grafite);
+            margin-bottom: var(--espaco-sm);
+            letter-spacing: -0.02em;
+        }
+        
+        .marketplace-subtitulo {
+            font-family: var(--fonte-pagina);
+            font-size: 1rem;
+            color: var(--cor-taupa);
+            letter-spacing: 0.05em;
+        }
+        
+        /* ============================================
+           LAYOUT PRINCIPAL (Sidebar + Grid)
+           ============================================ */
+        .marketplace-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: var(--espaco-xl);
+            margin-bottom: var(--espaco-2xl);
+        }
+        
+        /* ---------------------------------
+                SIDEBAR DE FILTROS 
+           -------------------------------- */
+        .filtros-sidebar {
+            position: sticky;
+            top: 100px;
+            align-self: start;
+        }
+        
+        .filtros-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--espaco-md);
+            padding-bottom: var(--espaco-xs);
+            border-bottom: 1px solid var(--cor-taupa-claro);
+        }
+        
+        .filtros-titulo {
+            font-family: var(--fonte-pagina);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cor-grafite);
+        }
+        
+        .filtros-limpar {
+            font-family: var(--fonte-pagina);
+            font-size: 0.75rem;
+            color: var(--cor-taupa);
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .filtros-limpar:hover {
+            color: var(--cor-azul);
+        }
+        
+        /* Grupo de filtros */
+        .filtro-grupo {
+            margin-bottom: var(--espaco-lg);
+        }
+        
+        .filtro-grupo-titulo {
+            font-family: var(--fonte-pagina);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--cor-cinza-claro);
+            margin-bottom: var(--espaco-sm);
+            letter-spacing: 0.05em;
+        }
+        
+        /* Opções de filtro */
+        .filtro-opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        
+        .filtro-opcao {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            font-family: var(--fonte-pagina);
+            font-size: 0.9rem;
+            color: var(--cor-cinza-claro);
+            transition: color 0.2s ease;
+        }
+        
+        .filtro-opcao:hover {
+            color: var(--cor-grafite);
+        }
+        
+        .filtro-opcao input {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            cursor: pointer;
+            accent-color: var(--cor-ouro);
+        }
+        
+        /* Filtro de preço com range */
+        .preco-range {
+            padding: 0 0 var(--espaco-sm) 0;
+        }
+        
+        .preco-range-input {
+            width: 100%;
+            margin: var(--espaco-sm) 0;
+            cursor: pointer;
+            accent-color: var(--cor-ouro);
+        }
+        
+        .preco-valores {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--fonte-pagina);
+            font-size: 0.8rem;
+            color: var(--cor-taupa);
+        }
+        
+        .preco-atual {
+            text-align: center;
+            margin-top: var(--espaco-xs);
+            font-family: var(--fonte-pagina);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--cor-ouro-escuro);
+        }
+        
+        /* ============================================
+           GRADE DE PRODUTOS
+           ============================================ */
+        .produtos-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--espaco-md);
+            padding-bottom: var(--espaco-xs);
+            border-bottom: 1px solid var(--cor-taupa-claro);
+        }
+        
+        .produtos-contagem {
+            font-family: var(--fonte-pagina);
+            font-size: 0.85rem;
+            color: var(--cor-taupa);
+        }
+        
+        .produtos-ordem {
+            font-family: var(--fonte-pagina);
+            font-size: 0.8rem;
+            background: none;
+            border: none;
+            color: var(--cor-cinza-claro);
+            cursor: pointer;
+        }
+        
+        .produtos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: var(--espaco-lg);
+        }
+        
+        /* Card do produto */
+        .produto-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            animation: fadeUp 0.5s ease forwards;
+        }
+        
+        .produto-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .produto-imagem-wrapper {
+            aspect-ratio: 1 / 1.2;
+            overflow: hidden;
+            background-color: var(--cor-marfim);
+            margin-bottom: var(--espaco-sm);
+        }
+        
+        .produto-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .produto-card:hover .produto-imagem {
+            transform: scale(1.03);
+        }
+        
+        .produto-categoria {
+            font-family: var(--fonte-pagina);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cor-taupa);
+            margin-bottom: 0.3rem;
+        }
+        
+        .produto-nome {
+            font-family: var(--fonte-pagina);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--cor-grafite);
+            margin-bottom: 0.3rem;
+        }
+        
+        .produto-material {
+            font-family: var(--fonte-pagina);
+            font-size: 0.75rem;
+            color: var(--cor-taupa);
+            margin-bottom: 0.5rem;
+        }
+        
+        .produto-preco {
+            font-family: var(--fonte-titulos);
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--cor-ouro-escuro);
+        }
+        
+        /* Estado sem produtos */
+        .sem-produtos {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: var(--espaco-xl);
+            color: var(--cor-taupa);
+            font-family: var(--fonte-pagina);
+        }
+        
+        /* --------------------------------
+                    RESPONSIVIDADE
+           ------------------------------ */
+        @media (max-width: 860px) {
+            .marketplace-layout {
+                grid-template-columns: 1fr;
+                gap: var(--espaco-lg);
+            }
+            
+            .filtros-sidebar {
+                position: static;
+                margin-bottom: var(--espaco-md);
+            }
+            
+            .filtro-opcoes {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: var(--espaco-sm);
+            }
+            
+            .marketplace-main {
+                padding-top: 100px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .produtos-grid {
+                grid-template-columns: 1fr;
+                gap: var(--espaco-md);
+            }
+            
+            .marketplace-titulo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+         <!----------------------------------
+                 SEÇÃO DO CABEÇALHO
+        ------------------------------------->
+    <header class="cabecalho-site" id="cabecalho">
+        <div class="container">
+            <div class="cabecalho-interno">
+                <a href="index.html">
+                    <img class="img-logo" src="images/logo_s.png" width="18%" alt="logomarca">
+                    <span class="logo-texto">VÉRA</span>
+                </a>
+            
+                <nav class="nav-principal">
+                    <a href="catalogo.html">Alianças</a>
+                    <a href="catalogo.html">Namoro</a>
+                    <a href="catalogo.html">Noivado</a>
+                    <a href="catalogo.html">Casamento</a>
+                    <a href="login.html" class="nav-login">Login</a>
+                </nav>
+                
+                <button class="menu-abrir" id="menuAbrir" aria-label="Abrir menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Menu Mobile (mesmo do original) -->
+    <div class="barra-mobile" id="sobreposicaoMobile"></div>
+    <nav class="nav-mobile" id="navMobile">
+        <button class="nav-mobile-fechar" id="navMobileFechar">×</button>
+        <ul class="nav-mobile-links">
+            <li><a href="marketplace.html">Alianças</a></li>
+            <li><a href="marketplace.html">Namoro</a></li>
+            <li><a href="marketplace.html">Noivado</a></li>
+            <li><a href="marketplace.html">Casamento</a></li>
+        </ul>
+        <div class="nav-mobile-login">
+            <a href="#contato" class="btn-primario">Login</a>
+        </div>
+    </nav>
+    
+    <!----------------------------------
+                SEÇÃO PRINCIPAL
+        ------------------------------>
+    <main class="marketplace-main">
+        <div class="container">
+            
+            <!-- Header do Marketplace -->
+            <div class="marketplace-header">
+                <h1 class="marketplace-titulo">AlianÇas</h1>
+                <p class="marketplace-subtitulo">Peças únicas, feitas à mão com ouro de verdade</p>
+            </div>
+            
+            <!-- Layout com filtros + produtos -->
+            <div class="marketplace-layout">
+                
+                <!----------------------------------
+                     SIDEBAR DE FILTROS
+                   --------------------------------->
+                <aside class="filtros-sidebar">
+                    <div class="filtros-header">
+                        <span class="filtros-titulo">Filtros</span>
+                        <button class="filtros-limpar" id="limparFiltros">Limpar tudo</button>
+                    </div>
+                    
+                    <!-- Filtro de Categoria -->
+                    <div class="filtro-grupo">
+                        <div class="filtro-grupo-titulo">Categoria</div>
+                        <div class="filtro-opcoes" id="filtroCategoria">
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="casamento"> Casamento
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="noivado"> Noivado
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="namoro"> Namoro
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="conjuntos"> Conjuntos
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtro de Material -->
+                    <div class="filtro-grupo">
+                        <div class="filtro-grupo-titulo">Material</div>
+                        <div class="filtro-opcoes" id="filtroMaterial">
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="ouro 10k"> Ouro 10K
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="ouro 18k"> Ouro 18K
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="ouro 20k"> Ouro 20K
+                            </label>
+                            <label class="filtro-opcao">
+                                <input type="checkbox" value="ouro branco"> Ouro Branco
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtro de Preço (Range) -->
+                    <div class="filtro-grupo">
+                        <div class="filtro-grupo-titulo">Preço máximo</div>
+                        <div class="preco-range">
+                            <input type="range" id="precoRange" min="0" max="15000" step="500" value="15000" class="preco-range-input">
+                            <div class="preco-valores">
+                                <span>R$ 0</span>
+                                <span>R$ 15.000+</span>
+                            </div>
+                            <div class="preco-atual" id="precoAtual">Até R$ 15.000</div>
+                        </div>
+                    </div>
+                </aside>
+                
+                <!-- ============================================
+                     GRADE DE PRODUTOS
+                     ============================================ -->
+                <div class="produtos-container">
+                    <div class="produtos-header">
+                        <span class="produtos-contagem" id="produtosContagem">Carregando...</span>
+                        <button class="produtos-ordem" id="ordenarPreco">Ordenar por preço ↓</button>
+                    </div>
+                    <div class="produtos-grid" id="produtosGrid">
+                        <!-- Os produtos serão inseridos via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- ============================================
+                           SEÇÃO RODAPÉ
+         ============================================ -->
+    <!-- Rodapé -->
+	<footer class="rodape-site">
+		<div class="container">
+			<div class="rodape-grade">
+				<div class="rodape-marca">
+					<img class="rodape-logo" src="images/logo.png" width="18%" alt="logomarca">
+					<p class="rodape-slogan">
+						Produção de jóias
+						artesanal 
+					</p>
+					<div class="rodape-contato-info">
+						<p>Avenida Paulista, 1471 – 5º Andar</p>
+						<p>Jardim Paulista, São Paulo – SP</p>
+						<p><a href="tel:+5511940028922">(11) 94002-8922</a></p>
+						<p><a href="mailto:vendas@vera.com.br">vendas@vera.com.br</a></p>
+					</div>
+				</div>
+
+				<div class="rodape-coluna">
+					<h4 class="rodape-coluna-titulo">Coleções</h4>
+					<ul class="rodape-links">
+						<li><a href="#colecoes">Todas as Coleções</a></li>
+						<li><a href="#">Alianças</a></li>
+						<li><a href="#">Namoro</a></li>
+						<li><a href="#">Noivado</a></li>
+						<li><a href="#">Casamento</a></li>
+					</ul>
+				</div>
+
+				<div class="rodape-coluna">
+					<h4 class="rodape-coluna-titulo">Sobre a Empresa</h4>
+					<ul class="rodape-links">
+						<li><a href="#historia"></a></li>
+						<li><a href="#artesanato"></a></li>
+						<li><a href="#contato"></a></li>
+						<li><a href="#"></a></li>
+						<li><a href="#"></a></li>
+					</ul>
+				</div>
+
+				<div class="rodape-coluna rodape-sobre">
+					<h4 class="rodape-coluna-titulo"></h4>
+					<p>
+	
+					</p>
+					<p>
+					
+					</p>
+					<p>
+	
+					</p>
+				</div>
+			</div>
+
+			<div class="rodape-inferior">
+				<p class="rodape-copyright">© 2026 VÉRA.</p>
+				<div class="rodape-social">
+					<a href="#">Instagram</a>
+					<a href="#">Pinterest</a>
+					<a href="#">Facebook</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+    
+    <script>
+
+        // BASE DE DADOS DOS PRODUTOS
+
+        const produtos = [
+            // Casamento
+            { id: 1, nome: "Aliança Eterna", categoria: "casamento", material: "ouro 18k", preco: 4850, imagem: "images/Alianca09.jpg" },
+            { id: 2, nome: "Solene", categoria: "casamento", material: "ouro 20k", preco: 7200, imagem: "images/Alianca27.jpg" },
+            { id: 3, nome: "Prometidos", categoria: "casamento", material: "ouro 10k", preco: 2950, imagem: "images/Alianca14.jpg" },
+            // Noivado
+            { id: 4, nome: "Aurora", categoria: "noivado", material: "ouro branco", preco: 12500, imagem: "images/Alianca24.jpg" },
+            { id: 5, nome: "Luz Lunar", categoria: "noivado", material: "ouro branco", preco: 14800, imagem: "images/Alianca10.jpg" },
+            { id: 6, nome: "Sol Nascente", categoria: "noivado", material: "ouro 20k", preco: 9800, imagem: "images/Alianca15.jpg" },
+            // Namoro
+            { id: 7, nome: "Laços", categoria: "namoro", material: "ouro 10k", preco: 1850, imagem: "images/Alianca35.jpg" },
+            { id: 8, nome: "Dois Corações", categoria: "namoro", material: "ouro 18k", preco: 3200, imagem: "images/Alianca05.jpg" },
+            { id: 9, nome: "Caminhos", categoria: "namoro", material: "ouro 18k", preco: 2750, imagem: "images/Alianca11.jpg" },
+            // Conjuntos
+            { id: 10, nome: "Coleção Clássica", categoria: "conjuntos", material: "ouro 18k", preco: 8900, imagem: "images/Alianca36.jpg" },
+            { id: 11, nome: "Coleção Imperial", categoria: "conjuntos", material: "ouro 20k", preco: 14200, imagem: "images/Alianca20.jpg" },
+            { id: 12, nome: "Aliança Serena", categoria: "casamento", material: "ouro branco", preco: 8700, imagem: "images/Alianca02.jpg" },
+            { id: 13, nome: "Pérola Dourada", categoria: "noivado", material: "ouro branco", preco: 4150, imagem: "images/Alianca06.jpg" },
+            { id: 14, nome: "Elo", categoria: "namoro", material: "ouro 18k", preco: 3950, imagem: "images/Alianca25.jpg" }
+        ];
+        
+
+        // VARIÁVEIS DE ESTADO
+
+        let categoriasSelecionadas = [];
+        let materiaisSelecionados = [];
+        let precoMaximo = 15000;
+        let ordemPreco = "crescente"; // 'crescente' ou 'decrescente'
+        
+
+        // FUNÇÃO PARA FORMATAR PREÇO
+
+        function formatarPreco(valor) {
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+        
+        // ============================================
+        // FUNÇÃO PARA FILTRAR PRODUTOS
+        // ============================================
+        function filtrarProdutos() {
+            let filtrados = [...produtos];
+            
+            // Filtro por categoria
+            if (categoriasSelecionadas.length > 0) {
+                filtrados = filtrados.filter(p => categoriasSelecionadas.includes(p.categoria));
+            }
+            
+            // Filtro por material
+            if (materiaisSelecionados.length > 0) {
+                filtrados = filtrados.filter(p => materiaisSelecionados.includes(p.material));
+            }
+            
+            // Filtro por preço máximo
+            filtrados = filtrados.filter(p => p.preco <= precoMaximo);
+            
+            // Ordenação por preço
+            filtrados.sort((a, b) => {
+                return ordemPreco === "crescente" ? a.preco - b.preco : b.preco - a.preco;
+            });
+            
+            return filtrados;
+        }
+        
+        // ============================================
+        // FUNÇÃO PARA RENDERIZAR OS PRODUTOS NA TELA
+        // ============================================
+        function renderizarProdutos() {
+            const produtosFiltrados = filtrarProdutos();
+            const grid = document.getElementById('produtosGrid');
+            const contagemSpan = document.getElementById('produtosContagem');
+            
+            // Atualiza contagem
+            const total = produtosFiltrados.length;
+            contagemSpan.textContent = `${total} ${total === 1 ? 'peça' : 'peças'}`;
+            
+            // Se não há produtos, mostra mensagem
+            if (total === 0) {
+                grid.innerHTML = `<div class="sem-produtos">Nenhuma peça encontrada com os filtros selecionados.</div>`;
+                return;
+            }
+            
+            // Renderiza cada produto
+            grid.innerHTML = produtosFiltrados.map(produto => `
+                <div class="produto-card" data-id="${produto.id}">
+                    <div class="produto-imagem-wrapper">
+                        <img class="produto-imagem" src="${produto.imagem}" alt="${produto.nome}">
+                    </div>
+                    <div class="produto-categoria">${produto.categoria.toUpperCase()}</div>
+                    <h3 class="produto-nome">${produto.nome}</h3>
+                    <div class="produto-material">${produto.material.toUpperCase()}</div>
+                    <div class="produto-preco">${formatarPreco(produto.preco)}</div>
+                </div>
+            `).join('');
+        }
+        
+        // ============================================
+        // FUNÇÃO PARA ATUALIZAR TUDO (filtros + render)
+        // ============================================
+        function atualizarMarketplace() {
+            renderizarProdutos();
+            
+            // Atualiza texto do preço atual
+            const precoAtualSpan = document.getElementById('precoAtual');
+            precoAtualSpan.textContent = `Até ${formatarPreco(precoMaximo)}`;
+        }
+        
+        // ============================================
+        // CONFIGURAÇÃO DOS EVENT LISTENERS
+        // ============================================
+        
+        // 1. Filtro de Categoria (checkboxes)
+        const checkboxesCategoria = document.querySelectorAll('#filtroCategoria input');
+        checkboxesCategoria.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const valor = e.target.value;
+                if (e.target.checked) {
+                    categoriasSelecionadas.push(valor);
+                } else {
+                    categoriasSelecionadas = categoriasSelecionadas.filter(v => v !== valor);
+                }
+                atualizarMarketplace();
+            });
+        });
+        
+        // 2. Filtro de Material (checkboxes)
+        const checkboxesMaterial = document.querySelectorAll('#filtroMaterial input');
+        checkboxesMaterial.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const valor = e.target.value;
+                if (e.target.checked) {
+                    materiaisSelecionados.push(valor);
+                } else {
+                    materiaisSelecionados = materiaisSelecionados.filter(v => v !== valor);
+                }
+                atualizarMarketplace();
+            });
+        });
+        
+        // 3. Filtro de Preço (range slider)
+        const precoSlider = document.getElementById('precoRange');
+        precoSlider.addEventListener('input', (e) => {
+            precoMaximo = parseInt(e.target.value);
+            atualizarMarketplace();
+        });
+        
+        // 4. Botão "Limpar tudo"
+        const botaoLimpar = document.getElementById('limparFiltros');
+        botaoLimpar.addEventListener('click', () => {
+            // Limpa checkboxes de categoria
+            checkboxesCategoria.forEach(cb => cb.checked = false);
+            categoriasSelecionadas = [];
+            
+            // Limpa checkboxes de material
+            checkboxesMaterial.forEach(cb => cb.checked = false);
+            materiaisSelecionados = [];
+            
+            // Reseta preço
+            precoMaximo = 15000;
+            precoSlider.value = "15000";
+            
+            // Reseta ordenação
+            ordemPreco = "crescente";
+            const botaoOrdenar = document.getElementById('ordenarPreco');
+            botaoOrdenar.textContent = "Ordenar por preço ↓";
+            
+            atualizarMarketplace();
+        });
+        
+        // 5. Botão de ordenação
+        const botaoOrdenar = document.getElementById('ordenarPreco');
+        botaoOrdenar.addEventListener('click', () => {
+            if (ordemPreco === "crescente") {
+                ordemPreco = "decrescente";
+                botaoOrdenar.textContent = "Ordenar por preço ↑";
+            } else {
+                ordemPreco = "crescente";
+                botaoOrdenar.textContent = "Ordenar por preço ↓";
+            }
+            atualizarMarketplace();
+        });
+        
+        // ============================================
+        // INICIALIZAÇÃO
+        // ============================================
+        atualizarMarketplace();
+        
+        // ============================================
+        // REAPROVEITANDO O JS DO CABEÇALHO (Scroll)
+        // ============================================
+        const cabecalho = document.getElementById('cabecalho');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                cabecalho.classList.add('scrolled');
+            } else {
+                cabecalho.classList.remove('scrolled');
+            }
+        });
+        
+        // ============================================
+        // MENU MOBILE (mesmo do seu site)
+        // ============================================
+        const menuAbrir = document.getElementById('menuAbrir');
+        const navMobile = document.getElementById('navMobile');
+        const barraMobile = document.getElementById('sobreposicaoMobile');
+        const navMobileFechar = document.getElementById('navMobileFechar');
+        const navMobileLinks = document.querySelectorAll('.nav-mobile-links a');
+        
+        function abrirNavMobile() {
+            navMobile.classList.add('active');
+            barraMobile.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function fecharNavMobile() {
+            navMobile.classList.remove('active');
+            barraMobile.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (menuAbrir) menuAbrir.addEventListener('click', abrirNavMobile);
+        if (navMobileFechar) navMobileFechar.addEventListener('click', fecharNavMobile);
+        if (barraMobile) barraMobile.addEventListener('click', fecharNavMobile);
+        
+        navMobileLinks.forEach(link => {
+            link.addEventListener('click', fecharNavMobile);
+        });
+    </script>
+</body>
+</html>
